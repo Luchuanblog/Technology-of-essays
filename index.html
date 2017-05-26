@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>clock test</title>
+		<title>时钟</title>
 		<style type="text/css">
 			*{
 				margin: 0;padding: 0;
@@ -14,6 +14,7 @@
 		</style>
 	</head>
 	<body>
+		//如果要改变画布对象的状态，一定要先ctx.save()保存画布初始状态，操作完毕后再ctx.restore(),恢复画布初始状态，防止对后面的操作产生影响
 		<canvas id="canvas" width="400" height="400"></canvas>
 		<script type="text/javascript">
 			function clock(){
