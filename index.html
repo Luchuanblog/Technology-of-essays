@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>clock test</title>
+		<style type="text/css">
+			*{
+				margin: 0;padding: 0;
+			}
+			#canvas{
+				display: block;
+				margin: 50px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<canvas id="canvas" width="400" height="400"></canvas>
+		<script type="text/javascript">
+			function clock(){
+				//获得画布对象
+				var ctx = document.getElementById('canvas').getContext('2d');
+				//获得当前时间
+				var now =new Date();
+					hour = now.getHours();
+					min  = now.getMinutes();
+					sec  = now.getSeconds();
+					hour = hour>12? hour-12:hour;//时钟是12小时制
+				//绘制表底盘
+				ctx.save();
+				ctx.clearRect(0,0,400,400);//清空一个矩形从0,0开始到400,400结束
+				ctx.translate(200,200);//设定旋转中心为矩形中点
+				ctx.rotate(-Math.PI/2);//将坐标轴逆时针旋转90° x轴正方向在12点钟
+				var rand = ctx.createLinearGradient(150,0,-150,0);//设置渐变效果开始结束位置
+				rand.addColorStop(0,"#347E81");
+				rand.addColorStop(1,"#347E81");//设置渐变颜色0是开始位置的颜色 1是结束位置的颜色
+				ctx.fillStyle = rand;//设置填充样式为渐变
+				ctx.beginPath();
+				ctx.arc(0,0,150,0,Math.PI*2,true);//画圆
+				ctx.fill();//填充渐变				
+				//画分钟刻度
+				ctx.save();
+				for(var i=0;i<60;i++){
+					ctx.beginPath();
+					ctx.strokeStyle = "#ccc";
+					ctx.lineWidth = 2;
+					ctx.moveTo(140,0);
+					ctx.lineTo(130,0);
+					ctx.stroke();
+					ctx.rotate(Math.PI/30);
+				}
+				ctx.restore();
+				//画小时刻度
+				ctx.save();
+				for(var i=0;i<12;i++){
+					ctx.beginPath();
+					ctx.strokeStyle = "#fff";
+					ctx.lineWidth = 5;
+					ctx.moveTo(140,0);
+					ctx.lineTo(125,0);
+					ctx.stroke();
+					ctx.rotate(Math.PI/6);
+				}
+				ctx.restore();
+				//画文字
+				ctx.save();
+				ctx.rotate(Math.PI/2);
+				ctx.fillStyle = "#fff";
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'middle';
+				ctx.font = "25px Microsoft yahei";
+				ctx.fillText('3',110,0);
+				ctx.fillText('6',0,110);
+				ctx.fillText('9',-110,0);
+				ctx.fillText('12',0,-110);
+				ctx.restore();
+				
+				//画时针
+				ctx.save();
+				ctx.rotate(hour*(Math.PI/6)+min*(Math.PI/360)+sec*(Math.PI/21600));//把坐标轴旋转到当前时针位置
+				ctx.lineWidth = 10;
+				ctx.strokeStyle = "#fff";
+				ctx.beginPath();
+				ctx.moveTo(0,0);
+				ctx.lineTo(110,0);
+				ctx.stroke();
+				ctx.fillStyle = "#347E81";
+				ctx.arc(102,0,3,0,Math.PI*2,true);
+				ctx.fill();
+				ctx.restore();
+				//画分针
+				ctx.save();
+				ctx.rotate(min*(Math.PI/30)+sec*(Math.PI/1800));//把坐标轴旋转到当前时针位置
+				ctx.lineWidth = 7;
+				ctx.strokeStyle = "#fff";
+				ctx.beginPath();
+				ctx.moveTo(0,0);
+				ctx.lineTo(120,0);
+				ctx.stroke();
+				ctx.strokeStyle = "#347E81";
+				ctx.lineWidth = 3;
+				ctx.beginPath();
+				ctx.moveTo(115,0);
+				ctx.lineTo(105,0);
+				ctx.stroke();
+				ctx.restore();
+				//画秒针
+				ctx.save();
+				ctx.rotate(sec*(Math.PI/30));//把坐标轴旋转到当前时针位置
+				ctx.lineWidth = 4;
+				ctx.strokeStyle = "#fff";
+				ctx.beginPath();
+				ctx.moveTo(0,0);
+				ctx.lineTo(135,0);
+				ctx.stroke();
+				//秒针尾巴
+				ctx.beginPath();
+				ctx.moveTo(0,0);
+				ctx.lineWidth = 12;
+				ctx.lineTo(-30,0);
+				ctx.stroke();		
+				////画中轴圆
+				ctx.beginPath();
+				ctx.fillStyle = "#fff";
+				ctx.arc(0,0,10,0,Math.PI*2,true);
+				ctx.fill();
+				ctx.beginPath();
+				ctx.lineWidth = 1;
+				ctx.strokeStyle = "#347E81";
+				ctx.arc(0,0,5,0,Math.PI*2,true);
+				ctx.stroke();
+				ctx.restore();
+				
+				//边框
+				ctx.beginPath();
+				ctx.strokeStyle = "#ccc";
+				ctx.lineWidth = 7;
+				ctx.arc(0,0,150,0,Math.PI*2,true);
+				ctx.stroke();
+				ctx.restore();
+				
+				window.requestAnimationFrame(clock);
+			}
+			clock();
+		</script>
+	</body>
+</html>
