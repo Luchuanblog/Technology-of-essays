@@ -1,0 +1,47 @@
+htmlspecialchars() 函数把一些预定义的字符转换为 HTML 实体。
+
+预定义的字符是：
+& （和号）成为 &amp;
+" （双引号）成为 &quot;
+' （单引号）成为 '
+< （小于）成为 &lt;
+> （大于）成为 &gt;
+
+要把特殊的 HTML 实体转换回字符，使用 htmlspecialchars_decode() 函数。
+
+htmlspecialchars(string,flags,character-set,double_encode)
+
+参数	                描述
+string	            必需。规定要转换的字符串。
+flags	              可选。规定如何处理引号、无效的编码以及使用哪种文档类型。
+                    可用的引号类型：
+                        ENT_COMPAT - 默认。仅编码双引号。
+                        ENT_QUOTES - 编码双引号和单引号。
+                        ENT_NOQUOTES - 不编码任何引号。
+                    无效的编码：
+                        ENT_IGNORE - 忽略无效的编码，而不是让函数返回一个空的字符串。应尽量避免，因为这可能对安全性有影响。
+                        ENT_SUBSTITUTE - 把无效的编码替代成一个指定的带有 Unicode 替代字符 U+FFFD（UTF-8）或者 &#FFFD; 的字符，而不是返回一个空的字符串。
+                        ENT_DISALLOWED - 把指定文档类型中的无效代码点替代成 Unicode 替代字符 U+FFFD（UTF-8）或者 &#FFFD;。
+                    规定使用的文档类型的附加 flags：
+                        ENT_HTML401 - 默认。作为 HTML 4.01 处理代码。
+                        ENT_HTML5 - 作为 HTML 5 处理代码。
+                        ENT_XML1 - 作为 XML 1 处理代码。
+                        ENT_XHTML - 作为 XHTML 处理代码。
+character-set	      可选。一个规定了要使用的字符集的字符串。
+                    允许的值：
+                      UTF-8 - 默认。ASCII 兼容多字节的 8 位 Unicode
+                      ISO-8859-1 - 西欧
+                      ISO-8859-15 - 西欧（加入欧元符号 + ISO-8859-1 中丢失的法语和芬兰语字母）
+                      cp866 - DOS 专用 Cyrillic 字符集
+                      cp1251 - Windows 专用 Cyrillic 字符集
+                      cp1252 - Windows 专用西欧字符集
+                      KOI8-R - 俄语
+                      BIG5 - 繁体中文，主要在台湾使用
+                      GB2312 - 简体中文，国家标准字符集
+                      BIG5-HKSCS - 带香港扩展的 Big5
+                      Shift_JIS - 日语
+                      EUC-JP - 日语
+                      MacRoman - Mac 操作系统使用的字符集
+double_encode	      可选。一个规定了是否编码已存在的 HTML 实体的布尔值。
+                      TRUE - 默认。将对每个实体进行转换。
+                      FALSE - 不会对已存在的 HTML 实体进行编码。
